@@ -1,0 +1,55 @@
+= Playground
+
+This is a playground for me to mess around with AWS cloud services and also GitHub Actions. Since Terraform is boring, and HCL sucks, expect to see a lot of Pulumi, Nix, CUE and Golang junks here.
+
+== OIDC authentication for CI/CD
+
+AWS IAM Identity Center is used to authenticate the CI/CD workflow instead of static `+AWS_ACCESS_KEY_ID+` / `+AWS_SECRET_ACCESS_KEY+` values. See link:https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/configuring-openid-connect-in-amazon-web-services[GitHub docs] for the detailed instruction.
+
+== GitHub Actions
+
+- link:https://github.com/marketplace/actions/configure-aws-credentials-action-for-github-actions[aws-actions/configure-aws-credential] is used to authenticate the workflow.
+- link:https://github.com/marketplace/actions/pulumi-cli-action[pulumi/actions] is used to setup and run pulumi commands.
+- link:https://github.com/marketplace/actions/install-nix[cachix/install-nix-action] is used to install nix into the CI environment
+
+== Manual resources
+
+Because of the `+chicken & egg+` problem, some cloud resources should be created beforehand to make the CI/CD workflow functional.
+
+- Identity provider
+- IAM role used for CI/CD of this project (with attached permission rule)
+- S3 bucket to store the state of Pulumi/Terraform stacks
+- KMS key to encrypt Pulumi secrets
+
+== Development
+
+To get into a working development environment, run `+nix develop+`.
+
+=== TODO
+
+* [ ] Generate github-workflow schemas with Go library instead of invoking ad-hoc `+cue import+` command (so we can remove cue package from devShell)
+* [ ] Things to learn:
+** [ ] CUE with Pulumi's YAML runtime
+** [ ] Nix with Pulumi's YAML runtime (use Nix to generate JSON/YAML)
+** [ ] Terraform with CUE
+** [ ] Terraform with Nix (https://terranix.org/documentation/getting-started/[terranix])
+** [ ] K8s component management using Flux and link:https://github.com/stefanprodan/timoni[timoni]
+** [ ] K8s component management using Nix (maybe with https://kubenix.org/[kubenix])
+** [ ] CUE data validation using Rego (with link:https://github.com/open-policy-agent/conftest[conftest]) as an alternative to using CUE itself
+
+== References
+
+* CUE with Terraform:
+** https://github.com/cueniform
+** https://github.com/cue-examples/cue-terraform-github-config-experiment
+* CUE with Pulumi:
+** https://github.com/pulumi/examples/tree/master/aws-yaml-cue-eks
+** https://www.pulumi.com/blog/extending-pulumi-languages-with-yaml-cue-jsonnet-rust/
+* CUE documentations and examples:
+** https://cuetorials.com/overview/
+** https://alpha.cuelang.org/docs/language-guide/
+** https://cuelang.org/docs/integrations/yaml/
+
+== License
+
+Apache 2.0

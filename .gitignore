@@ -1,0 +1,14 @@
+.DS_Store
+
+# Build artifacts
+/slides/*.html
+node_modules/
+
+# Nix
+/result
+
+# Terraform
+.terraform/
+.terraform.lock.hcl
+terraform.tfstate*
+main.tf.json

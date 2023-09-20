@@ -1,0 +1,100 @@
+= Nix introduction
+:source-highlighter: highlight.js
+:highlightjs-theme: ./node_modules/@highlightjs/cdn-assets/styles/atom-one-dark.css
+:highlightjs-languages: nix
+:highlightjsdir: ./node_modules/@highlightjs/cdn-assets
+:revealjs_theme: black
+:revealjsdir: ./node_modules/reveal.js
+:customcss: ./styles/asciidoctor-revealjs.css
+:icons: font
+Hoang Nguyen Huy <hoang.nguyenhuy@optimizely.com>
+
+== What is Nix?
+https://nixos.org/manual
+
+- Package manager
+- Configuration language
+- Meta build system
+
+== What makes Nix different?
+
+- Reproducible
+- Isolated
+- Declarative
+- Portable
+- Rollout/rollback
+
+=== Not convinced yet?
+
+Take the pill
+
+https://nixos.org/guides/nix-pills/
+
+image::mobius-pills.png[]
+
+=== Package management
+
+* Centralized `+/nix/store+`
+* Sandboxing
+* Profiles
+* Everything is a derivation
+
+[.columns]
+=== Configuration language
+
+[.column]
+--
+- Pure
+- Lazy
+- Functional
+- Declarative
+--
+
+[.column]
+--
+[source, nix]
+----
+let
+  names = [
+    "Denny"
+    "Hoang"
+    "Martin"
+    "Robert"
+    "Tuan"
+  ];
+in
+{
+  messages = builtins.map (x: "Hello " + x) names;
+  count = 1 + builtins.length names;
+}
+----
+--
+
+=== Flakes
+
+https://nixos.wiki/wiki/Flakes
+
+`+nix <command>+` vs. `+nix-<command>+`
+
+- Experimental feature, but everyone uses
+- Unified, constraint configuration schema for a Nix project
+- Referencing other flakes
+
+=== Community
+
+- Large collection of Flakes available
+- Nixpkgs has more than 80,000 packages (and it's still growing)
+
+== Challenges
+
+- Nix is not X, where X=...
+- Overwhelm, disorganized documentation
+- Complexity
+
+== Demo
+
+- Configure MacOS and Homebrew packages
+- Manage toolings
+- Run tasks in a reproducible and reliable way
+
+== FAQ

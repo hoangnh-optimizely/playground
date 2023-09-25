@@ -28,11 +28,6 @@ jobs:
           role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
           aws-region: us-east-1
 
-      - name: Test AWS connection
-        run: |
-          ls -la ~/.aws/
-          aws sts get-caller-identity --no-cli-pager
-
       # - name: Run Pulumi preview
       #   uses: pulumi/actions@v4
       #   with:

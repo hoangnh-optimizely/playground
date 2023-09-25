@@ -1,1 +1,42 @@
 ---
+name: pulumi
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  plan:
+    name: pulumi plan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Configure AWS credentials
+        id: aws-credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+          aws-region: us-east-1
+
+      - name: Test AWS connection
+        run: |
+          ls -la ~/.aws/
+          aws sts get-caller-identity --no-cli-pager
+
+      # - name: Run Pulumi preview
+      #   uses: pulumi/actions@v4
+      #   with:
+      #     command: preview
+      #   env:
+      #     - AWS_ACCESS_KEY_ID: ${{ steps.aws-credentials.outputs.access_key_id }}
+      #     - AWS_SECRET_ACCESS_KEY: ${{ steps.aws-credentials.outputs.secret_access_key }}

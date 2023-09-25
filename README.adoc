@@ -2,6 +2,16 @@
 
 This is a playground for me to mess around with AWS cloud services and also GitHub Actions. Since Terraform is boring, and HCL sucks, expect to see a lot of Pulumi, Nix and Golang junks here.
 
+== OIDC authentication for CI/CD
+
+AWS IAM Identity Center is used to authenticate the CI/CD workflow instead of static `+AWS_ACCESS_KEY_ID+` / `+AWS_SECRET_ACCESS_KEY+` values. See link:https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/configuring-openid-connect-in-amazon-web-services[GitHub docs] for the detailed instruction.
+
+== GitHub Actions
+
+- link:https://github.com/marketplace/actions/configure-aws-credentials-action-for-github-actions[aws-actions/configure-aws-credential] is used to authenticate the workflow.
+- link:https://github.com/marketplace/actions/pulumi-cli-action[pulumi/actions] is used to setup and run pulumi commands.
+- link:https://github.com/marketplace/actions/install-nix[cachix/install-nix-action] is used to install nix into the CI environment
+
 == License
 
 Apache 2.0

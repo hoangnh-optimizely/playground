@@ -11,10 +11,10 @@ import (
 func main() {
 	pulumi.Run(func(ctx *pulumi.Context) error {
 		awsProvider, err := aws.NewProvider(ctx, "staging", &aws.ProviderArgs{
-			Region:    pulumi.String("us-east-1"),
-			AccessKey: pulumi.String(os.Getenv("AWS_ACCESS_KEY_ID")),
-			SecretKey: pulumi.String(os.Getenv("AWS_SECRET_ACCESS_KEY")),
-			Token:     pulumi.String(os.Getenv("AWS_SESSION_TOKEN")),
+			Region:               pulumi.String("us-east-1"),
+			AccessKey:            pulumi.String(os.Getenv("AWS_ACCESS_KEY_ID")),
+			SecretKey:            pulumi.String(os.Getenv("AWS_SECRET_ACCESS_KEY")),
+			SkipMetadataApiCheck: pulumi.Bool(true),
 		})
 		if err != nil {
 			return err

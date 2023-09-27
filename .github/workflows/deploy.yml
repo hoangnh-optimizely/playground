@@ -11,6 +11,10 @@ permissions:
   id-token: write
   contents: read
 
+env:
+  PULUMI_BACKEND_URL: ${{ secrets.PULUMI_CLOUD_URL }}
+  PULUMI_SKIP_UPDATE_CHECK: 'true'
+
 jobs:
   plan:
     name: pulumi plan
@@ -25,11 +29,18 @@ jobs:
           role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
           aws-region: us-east-1
 
-      - name: Run Pulumi preview
+      - name: Preview Pulumi changes
         uses: pulumi/actions@v4
         with:
           command: preview
           stack-name: aws-playground.dev
           cloud-url: ${{ secrets.PULUMI_CLOUD_URL }}
-        env:
-          PULUMI_BACKEND_URL: ${{ secrets.PULUMI_CLOUD_URL }}
+          diff: true
+
+      - name: Run Pulumi apply
+        uses: pulumi/actions@v4
+        if: ${{ vars.GITHUB_REF_NAME == 'main' }}
+        with:
+          command: up
+          stack-name: aws-playground.dev
+          cloud-url: ${{ secrets.PULUMI_CLOUD_URL }}

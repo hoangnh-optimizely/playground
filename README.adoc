@@ -12,6 +12,15 @@ AWS IAM Identity Center is used to authenticate the CI/CD workflow instead of st
 - link:https://github.com/marketplace/actions/pulumi-cli-action[pulumi/actions] is used to setup and run pulumi commands.
 - link:https://github.com/marketplace/actions/install-nix[cachix/install-nix-action] is used to install nix into the CI environment
 
+== Manual resources
+
+Because of the `+chicken & egg+` problem, some cloud resources are created beforehand to make the CI/CD work.
+
+- Identity provider
+- IAM role used for CI/CD of this project (with attached permission rule)
+- S3 bucket to store the state of this Pulumi stack
+- KMS key to encrypt Pulumi secrets
+
 == License
 
 Apache 2.0

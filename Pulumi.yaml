@@ -1,0 +1,4 @@
+---
+name: aws-playground
+runtime: go
+description: Toy Pulumi project to mess around with AWS

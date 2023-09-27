@@ -36,4 +36,4 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ steps.aws-credentials.outputs.aws-access-key-id }}
           AWS_SECRET_ACCESS_KEY: ${{ steps.aws-credentials.outputs.aws-secret-access-key }}
           AWS_SESSION_TOKEN: ${{ steps.aws-credentials.outputs.aws-session-token }}
-          AWS_REGION: us-east-1
+          PULUMI_BACKEND_URL: ${{ secrets.PULUMI_CLOUD_URL }}

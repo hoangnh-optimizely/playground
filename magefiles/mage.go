@@ -7,4 +7,4 @@ import "github.com/magefile/mage/mg"
 
 type Workflow mg.Namespace
 
-var Default = Workflow.Generate
+var Default = Workflow.Gen

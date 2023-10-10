@@ -25,7 +25,7 @@ var workflowSchemaPath = "../cue.mod/pkg/github.com/SchemaStore/schemastore/src/
 var ctx = cuecontext.New()
 
 // Generate GitHub Actions workflow definitions
-func (Workflow) Generate() error {
+func (Workflow) Gen() error {
 	// Get a stable file path
 	// NOTE: don't work with -trimpath
 	_, f, _, _ := runtime.Caller(0)
@@ -117,8 +117,8 @@ func (Workflow) Generate() error {
 
 // Generate CUE schema file based on the JSON schema of github-workflow
 func (Workflow) Schema() error {
-	// FIXME: the generated schema doesn't actually work due to duplicated keys
-	// `uses` and `run` in steps definitions
+	// FIXME: the generated schema doesn't actually work due to duplicated keys `uses` and `run` in steps definitions.
+	// The schema file inside this repo was tweaked a little to make us all happy ^-^
 
 	res, err := http.Get("https://json.schemastore.org/github-workflow.json")
 	if err != nil {

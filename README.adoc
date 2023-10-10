@@ -29,11 +29,30 @@ To get into a working development environment, run `+nix develop+`.
 
 Local tasks are managed by link:https://magefile.org[mage].
 
-The GitHub workflow definitions are written in CUE inside link:./internal/ci[internal/ci/] directory. Run `+mage workflow:generate+` to validate and generate the result YAML files.
+The GitHub workflow definitions are written in CUE inside link:./internal/ci[internal/ci/] directory. Run `+mage workflow:gen+` to validate and generate the result YAML files.
 
 === TODO
 
-- [ ] Generate github-workflow schemas with Go library instead of invoking ad-hoc `+cue import+` command (so we can remove cue package from devShell)
+* [ ] Generate github-workflow schemas with Go library instead of invoking ad-hoc `+cue import+` command (so we can remove cue package from devShell)
+* [ ] Things to learn:
+** [ ] CUE's custom commands via `+*_tool.cue+` files
+** [ ] CUE with Pulumi's YAML runtime
+** [ ] Terraform with CUE
+** [ ] K8s component management using Flux and link:https://github.com/stefanprodan/timoni[timoni]
+** [ ] CUE data validation using Rego (with link:https://github.com/open-policy-agent/conftest[conftest]) as an alternative to using CUE itself
+
+== References
+
+* CUE with Terraform:
+** https://github.com/cueniform
+** https://github.com/cue-examples/cue-terraform-github-config-experiment
+* CUE with Pulumi:
+** https://github.com/pulumi/examples/tree/master/aws-yaml-cue-eks
+** https://www.pulumi.com/blog/extending-pulumi-languages-with-yaml-cue-jsonnet-rust/
+* CUE documentations and examples:
+** https://cuetorials.com/overview/
+** https://alpha.cuelang.org/docs/language-guide/
+** https://cuelang.org/docs/integrations/yaml/
 
 == License
 

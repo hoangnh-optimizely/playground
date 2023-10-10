@@ -21,6 +21,20 @@ Because of the `+chicken & egg+` problem, some cloud resources are created befor
 - S3 bucket to store the state of this Pulumi stack
 - KMS key to encrypt Pulumi secrets
 
+== Development
+
+To get into a working development environment, run `+nix develop+`.
+
+=== Tasks
+
+Local tasks are managed by link:https://magefile.org[mage].
+
+The GitHub workflow definitions are written in CUE inside link:./internal/ci[internal/ci/] directory. Run `+mage workflow:generate+` to validate and generate the result YAML files.
+
+=== TODO
+
+- [ ] Generate github-workflow schemas with Go library instead of invoking ad-hoc `+cue import+` command (so we can remove cue package from devShell)
+
 == License
 
 Apache 2.0

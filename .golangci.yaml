@@ -1,0 +1,28 @@
+---
+linters:
+  disable-all: true
+  enable:
+    - errcheck
+    - goconst
+    - gofumpt
+    - gosec
+    - gosimple
+    - govet
+    - ineffassign
+    - lll
+    - misspell
+    - nakedret
+    - revive
+    - staticcheck
+    - typecheck
+    - unconvert
+    - unused
+
+issues:
+  fix: false
+
+output:
+  sort-results: true
+
+run:
+  timeout: 15m

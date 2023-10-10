@@ -1,46 +1,53 @@
----
-name: pulumi
-
-on:
+"on":
   push:
     branches:
       - main
   pull_request:
-
+    branches:
+      - main
 permissions:
   id-token: write
   contents: read
-
 env:
   PULUMI_BACKEND_URL: ${{ secrets.PULUMI_CLOUD_URL }}
-  PULUMI_SKIP_UPDATE_CHECK: 'true'
-
+  PULUMI_SKIP_UPDATE_CHECK: "true"
 jobs:
   plan:
-    name: pulumi plan
+    name: Preview infrastructure changes
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     steps:
-      - name: Clone repository
-        uses: actions/checkout@v3
-
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
+      - uses: actions/checkout@v4
+      - uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
           aws-region: us-east-1
-
-      - name: Preview Pulumi changes
-        uses: pulumi/actions@v4
+      - uses: actions/setup-go@v4
         with:
+          go-version: '>=1.20'
+      - run: go mod download
+      - uses: pulumi/actions@v4
+        with:
+          stack-name: aws-playground.dev
+          cloud-url: ${{ secrets.PULUMI_CLOUD_URL }}
           command: preview
-          stack-name: aws-playground.dev
-          cloud-url: ${{ secrets.PULUMI_CLOUD_URL }}
           diff: true
-
-      - name: Run Pulumi apply
-        uses: pulumi/actions@v4
-        if: ${{ vars.GITHUB_REF_NAME == 'main' }}
+  up:
+    name: Deploy infrastructure
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: aws-actions/configure-aws-credentials@v4
         with:
-          command: up
+          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+          aws-region: us-east-1
+      - uses: actions/setup-go@v4
+        with:
+          go-version: '>=1.20'
+      - run: go mod download
+      - uses: pulumi/actions@v4
+        with:
           stack-name: aws-playground.dev
           cloud-url: ${{ secrets.PULUMI_CLOUD_URL }}
+          command: up

@@ -1,0 +1,15 @@
+{
+  "neoconf": {
+    "live_reload": false,
+    "import": {
+      "vscode": false
+    }
+  },
+  "lspconfig": {
+    "gopls": {
+      "gopls.buildFlags": [
+        "-tags=mage"
+      ]
+    }
+  }
+}

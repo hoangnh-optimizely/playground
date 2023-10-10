@@ -50,7 +50,7 @@ func (Workflow) Generate() error {
 	// Run things in parallel so it's a bit faster
 	var wg sync.WaitGroup
 
-	// Where do you copy this pattern?
+	// Where did you copy this pattern from?
 	// https://www.golangcode.com/errors-in-waitgroups/
 	wgDone := make(chan struct{})
 	errs := make(chan error)

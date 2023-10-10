@@ -1,6 +1,6 @@
 = AWS playground
 
-This is a playground for me to mess around with AWS cloud services and also GitHub Actions. Since Terraform is boring, and HCL sucks, expect to see a lot of Pulumi, Nix and Golang junks here.
+This is a playground for me to mess around with AWS cloud services and also GitHub Actions. Since Terraform is boring, and HCL sucks, expect to see a lot of Pulumi, Nix, CUE and Golang junks here.
 
 == OIDC authentication for CI/CD
 

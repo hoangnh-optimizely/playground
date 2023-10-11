@@ -35,7 +35,7 @@ The GitHub workflow definitions are written in CUE inside link:./internal/ci[int
 
 * [ ] Generate github-workflow schemas with Go library instead of invoking ad-hoc `+cue import+` command (so we can remove cue package from devShell)
 * [ ] Things to learn:
-** [ ] CUE's custom commands via `+*_tool.cue+` files
+** [ ] Tasks management with CUE via `+*_tool.cue+` and custom CUE commands
 ** [ ] CUE with Pulumi's YAML runtime
 ** [ ] Terraform with CUE
 ** [ ] K8s component management using Flux and link:https://github.com/stefanprodan/timoni[timoni]

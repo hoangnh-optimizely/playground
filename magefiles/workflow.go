@@ -1,6 +1,3 @@
-//go:build mage
-// +build mage
-
 package main
 
 import (
@@ -56,7 +53,7 @@ func (Workflow) Gen() error {
 	errs := make(chan error)
 
 	for _, entry := range entries {
-		entry := entry // The infamous "out of loop" value access thing
+		entry := entry // The infamous "out of loop" async value access thing
 		wg.Add(1)
 
 		go func() {
@@ -89,7 +86,7 @@ func (Workflow) Gen() error {
 				}
 
 				baseFileName := strings.TrimSuffix(entry.Name(), entryExt)
-				err = os.WriteFile(filepath.Join(outputDir, baseFileName+".yml"), result, 0o644)
+				err = os.WriteFile(filepath.Join(outputDir, baseFileName+".yml"), result, 0o600)
 				if err != nil {
 					errs <- err
 				}
@@ -145,7 +142,7 @@ func (Workflow) Schema() error {
 
 	// Write the retrieved jsonschema to a temporary file (we'll rm it afterward)
 	tmpJsonschemaPath := "/tmp/github-workflow.json"
-	err = os.WriteFile(tmpJsonschemaPath, workflowSchemaBytes, 0o644)
+	err = os.WriteFile(tmpJsonschemaPath, workflowSchemaBytes, 0o600)
 	if err != nil {
 		return err
 	}

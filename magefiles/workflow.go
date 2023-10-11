@@ -9,12 +9,12 @@ import (
 	"path/filepath"
 	"runtime"
 	"strings"
-	"sync"
 
 	"cuelang.org/go/cue"
 	"cuelang.org/go/cue/cuecontext"
 	"cuelang.org/go/encoding/yaml"
 	"github.com/magefile/mage/sh"
+	"golang.org/x/sync/errgroup"
 )
 
 var workflowSchemaPath = "../cue.mod/pkg/github.com/SchemaStore/schemastore/src/schemas/json/github-workflow.cue"
@@ -27,10 +27,19 @@ func (Workflow) Gen() error {
 	// NOTE: don't work with -trimpath
 	_, f, _, _ := runtime.Caller(0)
 
-	outputDir := filepath.Join(filepath.Dir(f), "../.github/workflows")
 	inputDir := filepath.Join(filepath.Dir(f), "../internal/ci")
 	entries, err := os.ReadDir(inputDir)
 	if err != nil {
+		return err
+	}
+
+	// Wipe everything and recreate the CI directory (nothing there should be manually managed)
+	outputDir := filepath.Join(filepath.Dir(f), "../.github/workflows")
+	err = os.RemoveAll(outputDir)
+	if err != nil {
+		return err
+	}
+	if err := os.MkdirAll(outputDir, 0o755); err != nil {
 		return err
 	}
 
@@ -44,72 +53,51 @@ func (Workflow) Gen() error {
 		return workflowSchema.Err()
 	}
 
-	// Run things in parallel so it's a bit faster
-	var wg sync.WaitGroup
+	errs := new(errgroup.Group)
 
-	// Where did you copy this pattern from?
-	// https://www.golangcode.com/errors-in-waitgroups/
-	wgDone := make(chan struct{})
-	errs := make(chan error)
-
+	// Each *.cue file in this directory is corresponding to a workflow definition file
 	for _, entry := range entries {
-		entry := entry // The infamous "out of loop" async value access thing
-		wg.Add(1)
+		entry := entry // https://golang.org/doc/faq#closures_and_goroutines
 
-		go func() {
-			defer wg.Done()
-
+		errs.Go(func() error {
 			entryExt := filepath.Ext(entry.Name())
 
-			// Each *.cue file in this directory is corresponding to a workflow definition file
 			if !entry.IsDir() && entryExt == ".cue" {
 				inputCueBytes, err := os.ReadFile(filepath.Join(inputDir, entry.Name()))
 				if err != nil {
-					errs <- err
+					return err
 				}
 
 				inputCue := ctx.CompileBytes(inputCueBytes)
 				if inputCue.Err() != nil {
-					errs <- fmt.Errorf("%s: %v", entry.Name(), inputCue.Err())
+					return fmt.Errorf("%s: %v", entry.Name(), inputCue.Err())
 				}
 
 				// Transform CUE input to YAML
 				result, err := yaml.Encode(inputCue)
 				if err != nil {
-					errs <- fmt.Errorf("%s: %v", entry.Name(), err)
+					return fmt.Errorf("%s: %v", entry.Name(), err)
 				}
 
 				// Validate CI configuration against GitHub Workflow JSONSchema
 				err = yaml.Validate(result, workflowSchema.LookupPath(cue.ParsePath("#Workflow")))
 				if err != nil {
-					errs <- fmt.Errorf("%s: %v", entry.Name(), err)
+					return fmt.Errorf("%s: %v", entry.Name(), err)
 				}
 
-				baseFileName := strings.TrimSuffix(entry.Name(), entryExt)
-				err = os.WriteFile(filepath.Join(outputDir, baseFileName+".yml"), result, 0o600)
+				outputFile := strings.TrimSuffix(entry.Name(), entryExt) + ".yml"
+				err = os.WriteFile(filepath.Join(outputDir, outputFile), result, 0o600)
 				if err != nil {
-					errs <- err
+					return err
 				}
+				fmt.Println("=>", outputFile)
 			}
-		}()
+
+			return nil
+		})
 	}
 
-	// Start a final goroutine to wait for every function to finish
-	go func() {
-		wg.Wait()
-		close(wgDone)
-	}()
-
-	// Wait for either WaitGroup is done or an error is received
-	select {
-	case <-wgDone:
-		break
-	case err := <-errs:
-		close(errs)
-		return err
-	}
-
-	return nil
+	return errs.Wait()
 }
 
 // Generate CUE schema file based on the JSON schema of github-workflow

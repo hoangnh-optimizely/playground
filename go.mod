@@ -7,6 +7,7 @@ require (
 	github.com/magefile/mage v1.15.0
 	github.com/pulumi/pulumi-aws-native/sdk v0.79.0
 	github.com/pulumi/pulumi/sdk/v3 v3.86.0
+	golang.org/x/sync v0.1.0
 )
 
 require (
@@ -77,7 +78,6 @@ require (
 	go.uber.org/atomic v1.9.0 // indirect
 	golang.org/x/crypto v0.11.0 // indirect
 	golang.org/x/net v0.12.0 // indirect
-	golang.org/x/sync v0.1.0 // indirect
 	golang.org/x/sys v0.10.0 // indirect
 	golang.org/x/term v0.10.0 // indirect
 	golang.org/x/text v0.11.0 // indirect

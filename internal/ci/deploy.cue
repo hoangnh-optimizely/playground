@@ -23,7 +23,7 @@ _#commonSteps: [
 _#pulumiStep: {
 	uses: "pulumi/actions@v4"
 	with: {
-		"stack-name": "aws-playground.dev"
+		"stack-name": "dev"
 		"cloud-url":  _#pulumiBackendURL
 		command:      string
 		diff?:        bool

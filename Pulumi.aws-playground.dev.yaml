@@ -1,3 +1,0 @@
-secretsprovider: awskms://alias/us0-platform?region=us-east-1
-encryptedkey: AQICAHiMl7gGAmYlhoKv4Uri5wNOQR9FOucddTRAhjfNbw7MBAFRD/Pk/Q8EOpAWuD73fK5aAAAAfjB8BgkqhkiG9w0BBwagbzBtAgEAMGgGCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQMLumwQvbqNpAO1tb/AgEQgDsrg/DL4CSINT68ZPBtd5KMUCqFugf2Fj9syvrl2cemn/HoaerrauhvbDGrVDcTFhZFnIIKhU4mC5tNkw==
-pulumi:disable-default-providers: ["*"]

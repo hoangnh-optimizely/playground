@@ -28,7 +28,7 @@ jobs:
       - run: go mod download
       - uses: pulumi/actions@v4
         with:
-          stack-name: dev
+          stack-name: go
           cloud-url: ${{ secrets.PULUMI_CLOUD_URL }}
           command: preview
           diff: true
@@ -48,6 +48,6 @@ jobs:
       - run: go mod download
       - uses: pulumi/actions@v4
         with:
-          stack-name: dev
+          stack-name: go
           cloud-url: ${{ secrets.PULUMI_CLOUD_URL }}
           command: up

@@ -7,7 +7,6 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
-	"runtime"
 	"strings"
 
 	"cuelang.org/go/cue"
@@ -23,28 +22,24 @@ var ctx = cuecontext.New()
 
 // Generate GitHub Actions workflow definitions
 func (Workflow) Gen() error {
-	// Get a stable file path
-	// NOTE: don't work with -trimpath
-	_, f, _, _ := runtime.Caller(0)
-
-	inputDir := filepath.Join(filepath.Dir(f), "../internal/ci")
+	inputDir := filepath.Join(filepath.Dir(callerPath), "../internal/ci")
 	entries, err := os.ReadDir(inputDir)
 	if err != nil {
 		return err
 	}
 
 	// Wipe everything and recreate the CI directory (nothing there should be manually managed)
-	outputDir := filepath.Join(filepath.Dir(f), "../.github/workflows")
+	outputDir := filepath.Join(filepath.Dir(callerPath), "../.github/workflows")
 	err = os.RemoveAll(outputDir)
 	if err != nil {
 		return err
 	}
-	if err := os.MkdirAll(outputDir, 0o755); err != nil {
-		return err
+	if e := os.MkdirAll(outputDir, 0o755); e != nil {
+		return e
 	}
 
 	// Read the schema file for YAML validation
-	workflowSchemaData, err := os.ReadFile(filepath.Join(filepath.Dir(f), workflowSchemaPath))
+	workflowSchemaData, err := os.ReadFile(filepath.Join(filepath.Dir(callerPath), workflowSchemaPath))
 	if err != nil {
 		return err
 	}
@@ -100,7 +95,7 @@ func (Workflow) Gen() error {
 	return errs.Wait()
 }
 
-// Generate CUE schema file based on the JSON schema of github-workflow
+// Generate CUE schema file based on the jsonschema of github-workflow
 func (Workflow) Schema() error {
 	// FIXME: the generated schema doesn't actually work due to duplicated keys `uses` and `run` in steps definitions.
 	// The schema file inside this repo was tweaked a little to make us all happy ^-^
@@ -119,8 +114,7 @@ func (Workflow) Schema() error {
 	}
 
 	// Again, to ensure consistent filepath
-	_, f, _, _ := runtime.Caller(0)
-	outputPath := filepath.Join(filepath.Dir(f), workflowSchemaPath)
+	outputPath := filepath.Join(filepath.Dir(callerPath), workflowSchemaPath)
 
 	// Ensure the parent directory exists before writing a file into it
 	err = os.MkdirAll(filepath.Dir(outputPath), 0o755)

@@ -23,7 +23,7 @@ _#commonSteps: [
 _#pulumiStep: {
 	uses: "pulumi/actions@v4"
 	with: {
-		"stack-name": "dev"
+		"stack-name": "go"
 		"cloud-url":  _#pulumiBackendURL
 		command:      string
 		diff?:        bool

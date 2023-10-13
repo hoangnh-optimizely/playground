@@ -1,7 +1,7 @@
 ---
-name: aws-playground.cue
+name: aws-playground
 runtime:
   name: yaml
   options:
     compiler: cue export
-description: Toy Pulumi project using CUE
+description: Toy Pulumi playground

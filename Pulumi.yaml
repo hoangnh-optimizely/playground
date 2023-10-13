@@ -1,4 +1,4 @@
 ---
-name: aws-playground.go
+name: aws-playground
 runtime: go
-description: Toy Pulumi project using Golang
+description: Toy Pulumi playground

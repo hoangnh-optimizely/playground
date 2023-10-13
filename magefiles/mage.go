@@ -1,6 +1,7 @@
 package main
 
 import (
+	"path/filepath"
 	"runtime"
 
 	"github.com/magefile/mage/mg"
@@ -14,8 +15,8 @@ type (
 
 var Default = Workflow.Gen
 
-// filepath of the running process (don't work with -trimpath)
-var callerPath = func() string {
+// Directory contains the source file of the running process (don't work with -trimpath)
+var callerDir = func() string {
 	_, f, _, _ := runtime.Caller(0)
-	return f
+	return filepath.Dir(f)
 }()

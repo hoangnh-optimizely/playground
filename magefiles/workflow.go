@@ -22,14 +22,14 @@ var ctx = cuecontext.New()
 
 // Generate GitHub Actions workflow definitions
 func (Workflow) Gen() error {
-	inputDir := filepath.Join(filepath.Dir(callerPath), "../internal/ci")
+	inputDir := filepath.Join(callerDir, "../internal/ci")
 	entries, err := os.ReadDir(inputDir)
 	if err != nil {
 		return err
 	}
 
 	// Wipe everything and recreate the CI directory (nothing there should be manually managed)
-	outputDir := filepath.Join(filepath.Dir(callerPath), "../.github/workflows")
+	outputDir := filepath.Join(callerDir, "../.github/workflows")
 	err = os.RemoveAll(outputDir)
 	if err != nil {
 		return err
@@ -39,7 +39,7 @@ func (Workflow) Gen() error {
 	}
 
 	// Read the schema file for YAML validation
-	workflowSchemaData, err := os.ReadFile(filepath.Join(filepath.Dir(callerPath), workflowSchemaPath))
+	workflowSchemaData, err := os.ReadFile(filepath.Join(callerDir, workflowSchemaPath))
 	if err != nil {
 		return err
 	}
@@ -114,7 +114,7 @@ func (Workflow) Schema() error {
 	}
 
 	// Again, to ensure consistent filepath
-	outputPath := filepath.Join(filepath.Dir(callerPath), workflowSchemaPath)
+	outputPath := filepath.Join(callerDir, workflowSchemaPath)
 
 	// Ensure the parent directory exists before writing a file into it
 	err = os.MkdirAll(filepath.Dir(outputPath), 0o755)

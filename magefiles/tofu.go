@@ -9,7 +9,7 @@ import (
 	"github.com/magefile/mage/sh"
 )
 
-var tofuDir = filepath.Join(callerPath, "../internal/tofu")
+var tofuDir = filepath.Join(callerDir, "../internal/tofu")
 
 // Generate Terraform configuration from CUE source files
 func (Tofu) Gen() error {

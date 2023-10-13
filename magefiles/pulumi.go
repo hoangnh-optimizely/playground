@@ -11,8 +11,8 @@ import (
 )
 
 var pulumiStackPaths = map[string]string{
-	"go":  filepath.Join(callerPath, ".."),
-	"cue": filepath.Join(callerPath, "../internal/pulumi-cue"),
+	"go":  filepath.Join(callerDir, ".."),
+	"cue": filepath.Join(callerDir, "../internal/pulumi-cue"),
 }
 
 // Execute specified Pulumi command
@@ -32,6 +32,11 @@ func (Pulumi) Run(stack, command string) error {
 	parsedCmd = append(parsedCmd, "--cwd="+pulumiStackPaths[stack])
 
 	pulumiCmd, err := exec.LookPath("pulumi")
+	if err != nil {
+		return err
+	}
+
+	err = sh.RunV(pulumiCmd, "stack", "select", stack)
 	if err != nil {
 		return err
 	}

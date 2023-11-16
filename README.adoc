@@ -1,4 +1,4 @@
-= AWS playground
+= Playground
 
 This is a playground for me to mess around with AWS cloud services and also GitHub Actions. Since Terraform is boring, and HCL sucks, expect to see a lot of Pulumi, Nix, CUE and Golang junks here.
 
@@ -37,8 +37,11 @@ The GitHub workflow definitions are written in CUE inside link:./internal/ci[int
 * [ ] Things to learn:
 ** [ ] Tasks management with CUE via `+*_tool.cue+` and custom CUE commands
 ** [ ] CUE with Pulumi's YAML runtime
+** [ ] Nix with Pulumi's YAML runtime (use Nix to generate JSON/YAML)
 ** [ ] Terraform with CUE
+** [ ] Terraform with Nix (with https://terranix.org/documentation/getting-started/[terranix])
 ** [ ] K8s component management using Flux and link:https://github.com/stefanprodan/timoni[timoni]
+** [ ] K8s component management using Nix (maybe with https://kubenix.org/[kubenix])
 ** [ ] CUE data validation using Rego (with link:https://github.com/open-policy-agent/conftest[conftest]) as an alternative to using CUE itself
 
 == References

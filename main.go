@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2023 Hoang Nguyen <folliekazetani@protonmail.com>
+//
+// SPDX-License-Identifier: Apache-2.0
+
 package main
 
 import (

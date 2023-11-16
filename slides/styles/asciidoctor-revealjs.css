@@ -1,0 +1,12 @@
+:root {
+  --r-main-font: "Iosevka Aile";
+  --r-heading-font: "Iosevka Aile";
+  --r-code-font: "Iosevka";
+}
+
+code:not([class]) {
+  background-color: #282c34;
+  border-radius: 0.4rem;
+  font-family: var(--r-code-font);
+  padding: 0.25rem;
+}

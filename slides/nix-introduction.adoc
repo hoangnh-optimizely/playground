@@ -1,0 +1,62 @@
+= Nix introduction
+:source-highlighter: highlight.js
+:highlightjs-theme: ./node_modules/@highlightjs/cdn-assets/styles/atom-one-dark.css
+:highlightjsdir: ./node_modules/@highlightjs/cdn-assets
+:revealjs_theme: black
+:revealjsdir: ./node_modules/reveal.js
+:customcss: ./styles/asciidoctor-revealjs.css
+:icons: font
+Hoang Nguyen Huy <hoang.nguyenhuy@optimizely.com>
+
+== What is Nix?
+https://nixos.org/manual
+
+- Package manager
+- Configuration language
+- Meta build system
+
+== What makes Nix different?
+
+- Reproducible
+- Isolated
+- Declarative
+- Portable
+- Rollout/rollback
+
+=== Not convinced yet?
+
+Take the pill: https://nixos.org/guides/nix-pills/
+
+image::mobius-pills.png[]
+
+=== Package management
+
+- Everything is executed in sandboxes under `+/nix/store+`
+- TODO
+
+=== Pure, functional configuration
+
+TODO
+
+=== Flakes
+
+- Experimental feature, but everyone uses
+
+=== Community
+
+- Large collection of Flakes available
+- Nixpkgs has more than 80,000 packages (and it's still growing)
+
+== Challenges
+
+- Nix is not X, where X=...
+- Overwhelm, disorganized documentation
+- Complexity
+
+== Demo
+
+- Configure MacOS and Homebrew packages
+- Manage toolings
+- Run tasks in a reproducible and reliable way
+
+== FAQ

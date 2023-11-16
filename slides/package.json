@@ -1,0 +1,7 @@
+{
+	"dependencies": {
+		"@asciidoctor/reveal.js": "^5.0.1",
+		"@highlightjs/cdn-assets": "^11.9.0",
+		"reveal.js": "^5.0.2"
+	}
+}

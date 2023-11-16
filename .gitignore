@@ -1,1 +1,8 @@
 .DS_Store
+
+# Build artifacts
+/slides/*.html
+node_modules/
+
+# Nix
+/result

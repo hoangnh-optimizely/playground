@@ -43,7 +43,7 @@
             buildInputs = [
               asciidoctor
               nodePackages.pnpm
-              nodejs-slim
+              nodejs
             ];
             configurePhase = ''
               pnpm install
@@ -75,7 +75,7 @@
               mage
               nix
               pulumi
-              pulumi-language-go
+              pulumiPackages.pulumi-language-go
               terraform
               vim
             ];

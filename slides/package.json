@@ -1,7 +1,8 @@
 {
-	"dependencies": {
-		"@asciidoctor/reveal.js": "^5.0.1",
-		"@highlightjs/cdn-assets": "^11.9.0",
-		"reveal.js": "^5.0.2"
-	}
+  "dependencies": {
+    "@asciidoctor/core": "2.2.6",
+    "@asciidoctor/reveal.js": "^5.0.1",
+    "@highlightjs/cdn-assets": "^11.9.0",
+    "reveal.js": "^5.0.2"
+  }
 }

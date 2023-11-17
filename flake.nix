@@ -34,37 +34,47 @@
           };
         in
         {
-          packages.slides = with pkgs; stdenv.mkDerivation {
+          packages.slides = with pkgs; stdenv.mkDerivation (finalAttrs: {
             name = "asciidoc slides";
             src = lib.cleanSourceWith {
               src = gitignoreSource ./slides;
               filter = name: type: ! ((type == "regular") && ((baseNameOf name) == "README.adoc"));
             };
-            buildInputs = [
-              asciidoctor
-              nodePackages.pnpm
-              nodejs
-            ];
+            buildInputs = [ nodejs yarn fixup_yarn_lock ];
+            offlineCache = fetchYarnDeps {
+              yarnLock = finalAttrs.src + "/yarn.lock";
+              sha256 = "sha256-5ZmQYtuRXy3Vx4gUMViuQjA+XGBREAjRQMRA+rtTVLY";
+            };
             configurePhase = ''
-              pnpm install
+              export HOME="$TMPDIR"
+              yarn config --offline set yarn-offline-mirror $offlineCache
+              fixup_yarn_lock yarn.lock
+              yarn install \
+                --frozen-lockfile \
+                --offline \
+                --ignore-platfom \
+                --ignore-scripts \
+                --no-progress \
+                --non-interactive
+              patchShebangs node_modules/
             '';
             buildPhase = ''
               ./node_modules/.bin/asciidoctor-revealjs *.adoc
             '';
             installPhase = ''
               outdir="$out"/slides
-              mkdir -p "$outdir"
 
-              # Install built HTML files alongside needed resources
+              # Install static resources installed from npm
+              mkdir -p "$outdir"/node_modules
               cp -r \
                 node_modules/reveal.js \
                 node_modules/@highlightjs \
-                *.html \
-                *.png \
-                styles \
-                "$outdir"/
+                "$outdir"/node_modules/
+
+              # Install built HTML files alongside static resources
+              cp -r *.html *.png styles/ "$outdir"/
             '';
-          };
+          });
 
           devShells.default = with pkgs; mkShell {
             nativeBuildInputs = [

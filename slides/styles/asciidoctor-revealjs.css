@@ -10,3 +10,7 @@ code:not([class]) {
   font-family: var(--r-code-font);
   padding: 0.25rem;
 }
+
+pre > code {
+  border-radius: 0.4rem;
+}

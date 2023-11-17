@@ -1,6 +1,7 @@
 = Nix introduction
 :source-highlighter: highlight.js
 :highlightjs-theme: ./node_modules/@highlightjs/cdn-assets/styles/atom-one-dark.css
+:highlightjs-languages: nix
 :highlightjsdir: ./node_modules/@highlightjs/cdn-assets
 :revealjs_theme: black
 :revealjsdir: ./node_modules/reveal.js
@@ -25,22 +26,59 @@ https://nixos.org/manual
 
 === Not convinced yet?
 
-Take the pill: https://nixos.org/guides/nix-pills/
+Take the pill
+
+https://nixos.org/guides/nix-pills/
 
 image::mobius-pills.png[]
 
 === Package management
 
-- Everything is executed in sandboxes under `+/nix/store+`
-- TODO
+* Centralized `+/nix/store+`
+* Sandboxing
+* Profiles
+* Everything is a derivation
 
-=== Pure, functional configuration
+[.columns]
+=== Configuration language
 
-TODO
+[.column]
+--
+- Pure
+- Lazy
+- Functional
+- Declarative
+--
+
+[.column]
+--
+[source, nix]
+----
+let
+  names = [
+    "Denny"
+    "Hoang"
+    "Martin"
+    "Robert"
+    "Tuan"
+  ];
+in
+{
+  messages = builtins.map (x: "Hello " + x) names;
+  count = 1 + builtins.length names;
+}
+----
+--
 
 === Flakes
 
+https://nixos.wiki/wiki/Flakes
+
+`+nix <command>+` vs. `+nix-<command>+`
+
 - Experimental feature, but everyone uses
+- Unified, constraint configuration schema for a Nix project
+- Referencing other flakes
 
 === Community
 

@@ -1,4 +1,0 @@
----
-name: aws-playground
-runtime: go
-description: Toy Pulumi playground

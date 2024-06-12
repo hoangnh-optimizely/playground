@@ -6,3 +6,9 @@ node_modules/
 
 # Nix
 /result
+
+# Terraform
+.terraform/
+.terraform.lock.hcl
+terraform.tfstate*
+main.tf.json

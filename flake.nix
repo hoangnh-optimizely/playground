@@ -7,7 +7,10 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    flake-parts.url = "github:hercules-ci/flake-parts";
+    flake-parts = {
+      url = "github:hercules-ci/flake-parts";
+      inputs.nixpkgs-lib.follows = "nixpkgs";
+    };
 
     gitignore = {
       url = "github:hercules-ci/gitignore.nix";
@@ -83,11 +86,10 @@
               git
               go
               mage
-              nix
+              nixVersions.latest
               pulumi
               pulumiPackages.pulumi-language-go
-              terraform
-              vim
+              opentofu
             ];
 
             shellHook = ''

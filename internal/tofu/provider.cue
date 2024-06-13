@@ -15,4 +15,9 @@ providers: #Providers & {
 		source:  "opentofu/random"
 		version: "3.6.2"
 	}
+
+	mysql: {
+		source:  "petoju/mysql"
+		version: "3.0.60"
+	}
 }

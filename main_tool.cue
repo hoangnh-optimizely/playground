@@ -17,7 +17,7 @@ command: tofu: {
 	_tofuStacks: list.Contains(stack)
 
 	gen: exec.Run & {
-		cmd: ["cue", "export", "--force", "--outfile", "main.tf.json"]
+		cmd: ["cue", "export", "-f", "-o", "main.tf.json", "-e", "result"]
 		dir: "./stacks/\(stack)"
 	}
 

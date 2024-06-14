@@ -1,7 +1,5 @@
 package rds
 
-import "github.com/hoangnh-optimizely/playground/internal/tofu"
-
 // Ref: https://github.com/hashicorp/learn-terraform-rds
 result: {
 	resource: {
@@ -32,6 +30,24 @@ result: {
 			host:        "%"
 			auth_plugin: "AWSAuthenticationPlugin"
 			tls_option:  "SSL"
+		}
+
+		mysql_database: data: {name: "data"}
+
+		mysql_grant: iam_user: {
+			user:     "${mysql_user.iam_user.user}"
+			host:     "${mysql_user.iam_user.host}"
+			database: "${mysql_database.data.name}"
+			privileges: [
+				"SELECT",
+				"INSERT",
+				"UPDATE",
+				"DROP",
+				"ALTER",
+				"CREATE VIEW",
+				"SHOW VIEW",
+				"LOCK TABLES",
+			]
 		}
 	}
 

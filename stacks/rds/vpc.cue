@@ -3,7 +3,11 @@ package rds
 import "github.com/hoangnh-optimizely/playground/internal/tofu"
 
 result: {
-	data: aws_availability_zones: avaiable: {}
+	data: {
+		aws_availability_zones: avaiable: {}
+		aws_region: current: {}
+		aws_caller_identity: current: {}
+	}
 
 	module: vpc: tofu.modules.vpc & {
 		name: "iam-db-auth-test"
